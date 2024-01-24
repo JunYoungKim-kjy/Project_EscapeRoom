@@ -5,15 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>방탈출</title>
   <link rel="stylesheet" href="escape.css">
-  <!-- <script src="LastDoor.js" defer></script> -->
   <script type="module" src="escape.js"></script>
 </head>
 <body>
   <div class="container">
-    <canvas id="canvas" width="1200" height="600">
-      <div class="door"></div>
+    <div class="overlay"></div>
+    <div id="switch"></div>
+    <div class="events">
+      <div class="rightWall"><img src="img/wall-right.png" alt=""></div>
+      <div class="pillar"><img src="img/기둥.png" alt=""></div>
+      <div class="door"><img src="img/wooden-gate-2361812_640.png" alt=""></div>
       <div class="box"><img src="img/icons8-보물-상자-66.png" alt=""></div>
-    </canvas>
+      <div class="bookshelf"><img src="img/jesus-7280992_640.png" alt=""></div>
+    </div>
+    <div class="items">
+      <div class="item firstKey"><img data-name="firstKey" src="img/icons8-키-64.png" alt=""></div>
+    </div>
+    <div class="inventory">
+      <div class="leftbtn"><img src="img/icons8-뒤로-16.png" alt=""></div>
+      <div class="itemlist">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+      </div>
+      <div class="rightbtn"><img src="img/icons8-앞으로-16.png" alt=""></div>
+    </div>
+    <canvas id="mainCanvas" width="1200" height="600"></canvas>
+    <div class="msgbox"></div>
   </div>
 </body>
 </html>
