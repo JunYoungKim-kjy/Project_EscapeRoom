@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.container {
+  background: url('img/backroom.jpg') no-repeat center right;
+  /* 컨버스 사이즈와 동일하게 설정  */
+  margin: auto;
+  width: 1280px;
+  height: 720px;
+  /* border: 1px solid black; */
+  /* 부모 박스 : relative  */
+  /* 자식 위치는 : absolute */
+  /* z-index: -1000; */
+}
+
+#canvas{
+  overflow: hidden;
+  width: 100%;
+  border: 1px solid black;
+  height: 100%;
+  /* 부모 박스 기준으로  */
+  /* position: absolute;
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 0; */
+}
+/* .door{} */
+.box{
+  position: absolute;
+  width: 100px;
+  height: 100px;
+}
