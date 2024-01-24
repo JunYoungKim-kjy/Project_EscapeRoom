@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="kor">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,18 +8,19 @@
   <link rel="stylesheet" href="escape.css">
   <script type="module" src="escape.js"></script>
 </head>
+
 <body>
   <div class="container">
-    <div class="overlay"></div>
+    <!-- <div class="overlay"></div> -->
     <div id="switch"></div>
-    <div class="events">
+    <div class="events" draggable="false">
       <div class="rightWall"><img src="img/wall-right.png" alt=""></div>
       <div class="pillar"><img src="img/기둥.png" alt=""></div>
       <div class="door"><img src="img/wooden-gate-2361812_640.png" alt=""></div>
       <div class="box"><img src="img/icons8-보물-상자-66.png" alt=""></div>
       <div class="bookshelf"><img src="img/jesus-7280992_640.png" alt=""></div>
     </div>
-    <div class="items">
+    <div class="items" draggable="false">
       <div class="item firstKey"><img data-name="firstKey" src="img/icons8-키-64.png" alt=""></div>
     </div>
     <div class="inventory">
@@ -36,4 +38,5 @@
     <div class="msgbox"></div>
   </div>
 </body>
+
 </html>
