@@ -11,7 +11,7 @@
 
 <body>
   <div class="container">
-    <!-- <div class="overlay"></div> -->
+    <canvas id="mainCanvas" width="1200" height="600"></canvas>
     <div id="switch"></div>
     <div class="events" draggable="false">
       <div class="rightWall"><img src="img/wall-right.png" alt=""></div>
@@ -19,23 +19,30 @@
       <div class="door"><img src="img/wooden-gate-2361812_640.png" alt=""></div>
       <div class="box"><img src="img/icons8-보물-상자-66.png" alt=""></div>
       <div class="bookshelf"><img src="img/jesus-7280992_640.png" alt=""></div>
+      <div class="openPaper"><img src="img/openPaper-1763262_640.png" alt=""></div>
+      <div class="inBox"><img src="img/열린상자.png" alt="">
+      <div class="item paper" data-name="paper"><img src="img/icons8-종이-100.png" alt=""></div>
+      </div>
     </div>
     <div class="items" draggable="false">
-      <div class="item firstKey"><img data-name="firstKey" src="img/icons8-키-64.png" alt=""></div>
+      <div class="item firstKey" data-name="firstKey"><img src="img/icons8-키-64.png" alt=""></div>
+      
     </div>
-    <div class="inventory">
+    <div class="inventory down">
       <div class="leftbtn"><img src="img/icons8-뒤로-16.png" alt=""></div>
-      <div class="itemlist">
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
+      <div class="slotList">
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
       </div>
       <div class="rightbtn"><img src="img/icons8-앞으로-16.png" alt=""></div>
+      <button class="openbtn down" data-id="btn"><img src="img/icons8-더블-업-30.png" alt=""></button>
     </div>
-    <canvas id="mainCanvas" width="1200" height="600"></canvas>
     <div class="msgbox"></div>
+    <div class="overlay"></div>
+    <button class="Xbtn"><img src="img/icons8-종료-버튼-24.png" alt=""></button>
   </div>
 </body>
 

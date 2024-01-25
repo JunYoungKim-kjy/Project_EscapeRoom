@@ -21,26 +21,32 @@
   /* border: 30px solid black; */
   height: 100%;
   /* 부모 박스 기준으로  */
-  /* position: absolute;
-  top: 0;
-  left: 0;
-  */
-  /* z-index: -1000;  */
+  /* position: absolute; */
+  /* top: 0; */
+  /* left: 0; */
+  z-index: 20; 
 }
 #switch{
   position: absolute;
   /* border: 3px solid black; */
-  width: 100px;
+  width: 150px;
   height: 40px;
   top: 110px;
   left: 480px;
-  transition: all 600ms;
+  /* transition: all 600ms; */
   z-index: 10;
+  border-radius: 60px;
 }
 #switch.hint{
-  background-color: rgba(255, 255, 255, 0.63);
+  width: 50px;
+  background-color: rgba(255, 255, 255, 0.288);
   animation: hint 500ms ease-out infinite;
 }
+
+.hint{
+  animation: hint 500ms ease-out infinite;
+}
+
 @keyframes hint{
   0%{
     transform: scale(50%);
@@ -109,13 +115,13 @@ transform: scale(1.05);
   transform: scale(0.9);
 }
 
-.firstKey{
+.items>.firstKey{
   position: absolute;
   top: 500px;
   left: 180px;
   transition: all 500ms;
 }
-.firstKey:hover{
+.items>.firstKey:hover{
   transform: translateX(-30px);
 }
 .inventory{
@@ -130,7 +136,31 @@ transform: scale(1.05);
   padding: 10px;
   display: grid;
   grid-template-columns: 1fr 8fr 1fr;
+  transition: all 500ms;
 }
+
+
+.inventory.down{
+  bottom: -100px;
+}
+
+.openbtn{
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  background-color: antiquewhite;
+  border-radius: 50px;
+  border: transparent;
+  transition: all 500ms;
+  transform: rotate(180deg);
+}
+.openbtn.down{
+  top:-30px;
+
+  transform: rotate(0deg);
+  
+}
+
 .leftbtn,.rightbtn{
   border: 10px solid orange;
   height: 100%;
@@ -145,32 +175,87 @@ transform: scale(1.05);
   width: 100%;
   height: 100%;
 }
-.itemlist{
+.slotList{
   display: flex;
 }
-.itemlist > .item{
-  width: 150px;
+.slotList > .slot{
+  margin: 0 15px;
+  width: 110px;
   height: 80px;
-  border: 10px solid white;
+  border: 3px solid white;
 }
-.itemlist > .item:hover{
+.slotList > .slot:hover{
   transform: scale(1.2);
 }
-.itemlist > .item > img{
+.slot > .item {
+  display: flex;
+  justify-content: center;
   width: 100%;
-  height: 100%;
 }
-/* .overlay{
-  background-color: #000000e0;
+.slot > .item > img{
+  width: 70%;
+  height: auto;
+}
+
+
+.active{
+  background-color: #fff;
+}
+
+.overlay{
+  /* 이벤트창에 집중하기위해 나머지부분은 검은색으로 지정  */
+  background-color: #00000096;
   width: 100%;
   height: 100%;
   position: absolute;
-  z-index: 150;
-}   */
-/* 불이 켜진상태 */
-/* .overlay.on{
-  display: none;
-}   */
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  z-index: 99;
+}  
+.overlay.on{
+  visibility: visible;
+}  
+
+.inBox{
+  position: absolute;
+  top: 50px;
+  right: 300px;
+  z-index: -100;
+  transform: scale(0.3);
+}
+.openPaper{
+  position: absolute;
+  top: 50px;
+  right: 400px;
+  z-index: -100;
+  transform: scale(1.0);
+}
+
+.action{
+  transform: scale(1.0);
+  transition: all 300ms;
+  z-index: 100;
+}
+
+.inBox> .paper{
+  position: absolute;
+  top: 200px;
+  right: 200px;
+  animation: updown 1550ms ease infinite;
+}
+@keyframes updown{
+  0%{
+    transform: translateY(0px);
+  }
+  50%{
+    transform: translateY(10px);
+  }
+  100%{
+    transform: translateY(0px);
+
+  }
+}
 
 .msgbox{
   box-sizing: border-box;
@@ -189,6 +274,20 @@ transform: scale(1.05);
   font-size: large;
 }
 .msgbox.on{
+  z-index: 999;
   top: 150px;
+}
+
+.Xbtn{
+  position: absolute;
+  background-color: transparent;
+  border: transparent;
+  top: 50px;
+  right: 150px;
+  z-index: -10;
+}
+.Xbtn.on{
+  z-index: 300;
+
 }
 
