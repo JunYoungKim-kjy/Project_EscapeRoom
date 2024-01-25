@@ -19,7 +19,7 @@ class Escape{
     this.msgTimeOut=null;     //메세지 타임아웃
     this.autoSave=null;       //오토세이브 인터벌
     
-    this.stageLevel = [{level:0,element:this.$Lightswitch},{level:1,element:this.items.$firstkey},{level:2,element:this.events.$box},{level:3,element:null},{level:4,element:null}];
+    this.stageLevel = [{level:0,element:this.$Lightswitch},{level:1,element:this.items.$firstkey},{level:2,element:this.events.$box},{level:3,element:this.events.$bookshelf},{level:4,element:null}];
     this.level = this.stageLevel[0];
     
     
