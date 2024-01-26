@@ -11,17 +11,23 @@ class Escape{
     this.$Lightswitch = document.querySelector("#switch");//전등스위치
     this.$msgBox = document.querySelector(".msgbox")      //메세지 박스
     this.$Xbtn = document.querySelector(".Xbtn")          //X버튼
-    this.Inventory=new Inventory();    //인벤토리 클래스
-    this.items = new Items();          //아이템 클래스
-    this.events = new Events();        //이벤트 클래스
+    this.isObj = {
+      light : false,
+      finish : false,
+    }
     this.light = false;       //전등 on,off
     this.finish = false;
     this.darkInterval = null; //어두움 인터벌
     this.msgTimeOut=null;     //메세지 타임아웃
     this.autoSave=null;       //오토세이브 인터벌
     
+    
+    this.Inventory=new Inventory(this.ctx);    //인벤토리 클래스
+    this.items = new Items(this.ctx);          //아이템 클래스
+    this.events = new Events(this.Inventory ,this.ctx , this.isObj);        //이벤트 클래스
     this.stageLevel = [{level:0,element:this.$Lightswitch},{level:1,element:this.items.$firstkey},{level:2,element:this.events.$box},{level:3,element:this.events.$bookshelf},{level:4,element:this.items.$lastKey}];
     this.level = this.stageLevel[0];
+    console.log(this.isObj["light"]);
     
     
     this.load();
@@ -207,6 +213,7 @@ class Escape{
     // light가 true면 불켜기 false면 불 끄기
     if(this.light){
       this.lightTurnON();
+      this.$overlay.classList.add("turnOffLight")
     }else{
       this.lightTurnOff();
     }

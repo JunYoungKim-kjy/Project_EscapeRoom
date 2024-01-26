@@ -1,7 +1,7 @@
 export default class Events{
-    constructor(){
-        this.$events = document.querySelector(".events");     //이벤트 오브젝트 부모 객체
-        this.$Lightswitch = document.querySelector("#switch");//전등스위치
+    constructor(Inventory ,ctx, isObj){
+        this.$events = document.querySelector(".events");       //이벤트 오브젝트 부모 객체
+        this.$Lightswitch = document.querySelector("#switch");  //전등스위치
         this.$box = document.querySelector(".box");
         this.$bookshelf = document.querySelector(".bookshelf");
         this.$inBookshelf = document.querySelector(".inBookshelf");
@@ -11,6 +11,8 @@ export default class Events{
         this.$openPaper = document.querySelector(".openPaper");
         this.$setion1 = document.querySelector(".setion1");
         this.$Exit = document.querySelector(".Exit");
+
+
         this.isRainbow = false;
         this.isOpenBox = false;
         this.init();

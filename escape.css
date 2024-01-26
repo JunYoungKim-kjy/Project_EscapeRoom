@@ -68,7 +68,7 @@ button{
 }
 .events,
 .items{
-  opacity: 0.04;
+  opacity: 0;
 }
 .events.on,
 .items.on{
@@ -81,18 +81,12 @@ button{
   z-index: 5;
   transition: all 600ms;
 }
-.rightWall:hover{
-  transform: scale(1.05);
-}
 .pillar{
   position: absolute;
   top: -1px;
   left: 199px;
   transition: all 600ms;
   z-index: 5;
-}  
-.pillar:hover{
-transform: scale(1.05);
 }  
 .Exit{
   position: absolute;
@@ -373,7 +367,12 @@ transform: scale(1.05);
 }  
 .overlay.on{
   visibility: visible;
-}  
+}
+.overlay.turnOffLight{
+  background-color: #000000;
+  visibility: visible;
+  
+}
 
 .inBox{
   position: absolute;
