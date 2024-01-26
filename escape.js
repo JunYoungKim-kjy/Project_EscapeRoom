@@ -15,11 +15,12 @@ class Escape{
     this.items = new Items();          //아이템 클래스
     this.events = new Events();        //이벤트 클래스
     this.light = false;       //전등 on,off
+    this.finish = false;
     this.darkInterval = null; //어두움 인터벌
     this.msgTimeOut=null;     //메세지 타임아웃
     this.autoSave=null;       //오토세이브 인터벌
     
-    this.stageLevel = [{level:0,element:this.$Lightswitch},{level:1,element:this.items.$firstkey},{level:2,element:this.events.$box},{level:3,element:this.events.$bookshelf},{level:4,element:null}];
+    this.stageLevel = [{level:0,element:this.$Lightswitch},{level:1,element:this.items.$firstkey},{level:2,element:this.events.$box},{level:3,element:this.events.$bookshelf},{level:4,element:this.items.$lastKey}];
     this.level = this.stageLevel[0];
     
     
@@ -49,9 +50,39 @@ class Escape{
   }
   
   init(){
+    // gameOver
+    this.events.$Exit.addEventListener("click",()=>{
+      alert("탈출")
+  })
+
+    // checkDoorLock
+    this.events.$doorLock.addEventListener("click",()=>{
+      if(this.finish)return;
+      if(this.Inventory.activeitem === "lastKey"){
+        this.events.$lastDoor.style.zIndex = '-10';
+        this.events.$doorLock.classList.add("active")
+        this.events.$Exit.style.zIndex = 10;
+              
+        alert("덜컥");
+        this.finish=true;
+        // this.closeEvent();
+        this.level = this.stageLevel[4];
+      }else{
+        alert("열 수 있어보인다.")
+      }
+    })
+
+
+    // 라스트 도어
+    this.events.$lastDoor.addEventListener("click",()=>{
+      this.actionEvent(this.events.$doorLock);
+    })
+
+
     // X버튼 클릭시 event종료
     this.$Xbtn.addEventListener("click",e=>{
       this.events.closeEvent();
+      this.Inventory.removeActive();
       this.$Xbtn.classList.remove('on');
       this.$overlay.classList.remove('on');
     })
@@ -62,15 +93,57 @@ class Escape{
       const dataName = e.target.parentElement.getAttribute("data-name");
       if(!dataName)return;
       const activeitem = this.Inventory.activeItem(e.target.parentElement);
-      console.log(activeitem);
       if(activeitem==='paper'){
         this.actionEvent(this.events.$openPaper);
       }
-
     });
 
+    // 책문제
+    this.events.$setion1.addEventListener("drop",e=>{
+      if(this.events.isRainbow)return;
+      e.preventDefault();
+      const afterElement = this.events.getDragAfterElement(this.events.$setion1,e.clientX);
+      const draggable = document.querySelector(".dragging");
+      if (afterElement === undefined){
+          this.events.$setion1.appendChild(draggable);
+      }else{
+          this.events.$setion1.insertBefore(draggable,afterElement);
+      }
+      // 정답 확인
+      const bookArr = [...this.events.$setion1.children];
+      let num = 0;
+      // some == 1개라도 ture 면 ture값 반환
+      // every == 1개라도 false이면 false값 반환 (전체가 true여야 true 반환);
+      
+      if(bookArr.every(book=>{
+          if(book.getAttribute("data-num") == num++){
+              return true;
+          }
+      })){
+        this.events.isRainbow = true;
+        //열쇠 떨어트리기
+        this.items.$lastKey.classList.add("show");
+        setTimeout(()=>{
+        alert("달그락")},300)
+      }
+  });
+
+
+    // 책장 열기
+    this.events.$bookshelf.addEventListener("click",()=>{
+      if(!this.light)return;
+      if(this.level.level < 3){
+        alert("주변에 힌트가 있을거 같은데..");
+        return;
+      }
+      this.actionEvent(this.events.$inBookshelf);
+    });
     // 상자 열기 및 종이 획득
     this.events.$box.addEventListener("click",e=>{
+      if(this.level.level>=4){
+        alert("얼른 나가자")
+        return;
+      }
       if(!this.light)return;
       if(this.events.isOpenBox){
         this.actionEvent(this.events.$inBox);
@@ -82,10 +155,10 @@ class Escape{
         }
       }else{
         if(this.Inventory.activeitem != 'firstKey'){
-          alert("열 수 있을거 같은데..")
+          alert("열 수 있을거 같은데?")
           return;
         }else{
-          alert("열렸다...!")
+          alert("열렸다!")
           this.events.isOpenBox = true;
         };
       };
@@ -94,18 +167,18 @@ class Escape{
     //열쇠 획득
     this.items.$items.addEventListener("click",e=>{
       if(!this.light)return;
-        this.getItem(e.target);
-      if(name=='firstKey'){
-        this.level = this.stageLevel[2];
-      }
+      this.getItem(e.target);
+      
     });
     
     //마우스위치 후레쉬
     document.addEventListener("mousemove",e=>{
       if(this.light)return;
       this.lightTurnOff();
-      const x = (e.clientX) - 50 - ((document.documentElement.clientWidth - 1280) / 2);
-      const y = (e.clientY) - 50 - 130;
+      const width = document.documentElement.clientWidth >1280?((document.documentElement.clientWidth - 1280) / 2):0
+      // const height = document.documentElement.clientHeight
+      let x = e.pageX - 50 - width - (e.pageX / 20);
+      let y = e.pageY - 50 - 100 - (e.pageY / 10);
       this.ctx.clearRect(x,y,100,100);
     });
     
@@ -123,13 +196,13 @@ class Escape{
         this.light = !this.light
       };
     });
-    
+    // 자동저장
     this.autoSave = setInterval(()=>{
       const saveLevel = JSON.stringify(this.level);
       const saveLight = JSON.stringify(this.light);
       localStorage.setItem("Escape_Level",saveLevel);
       localStorage.setItem("Escape_light",saveLight);
-    },500);
+    },5000);
     
     // light가 true면 불켜기 false면 불 끄기
     if(this.light){
@@ -141,10 +214,16 @@ class Escape{
   }
   // 이벤트열기
   actionEvent(event){
+    if(this.level.level>=4){
+      alert("얼른 나가자")
+      return;
+    }
+    if(!this.light)return;
     this.$overlay.classList.add("on");
     event.classList.add("action");
     this.$Xbtn.classList.add('on');
   }
+
   // 아이템 얻기
   getItem(target){
     const targetElement = target.parentElement;
@@ -152,6 +231,9 @@ class Escape{
     this.Inventory.getItem(targetElement);
     const name = targetElement.getAttribute("data-name");
     this.showMsg(`${name}을 획득했습니다.`);
+    if(name=='firstKey'){
+      this.level = this.stageLevel[2];
+    }
   }
 
 
@@ -190,7 +272,7 @@ class Escape{
         this.level.element.classList.add("hint");
         setTimeout(()=>this.level.element.classList.remove("hint"),5000)
         },60000 * 5);
-    // }, 20000);
+    // }, 2000);
   };
 
 }

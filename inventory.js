@@ -24,6 +24,14 @@ export default class Inventory{
     const slotList = [...document.querySelectorAll(".slot")];
     const slot = slotList.find(e=>e.innerHTML=='');
     slot.appendChild(item);
+    item.classList.remove("hint")
+  }
+
+  removeActive(){
+    const itemArr = [...document.querySelectorAll(".slot>.item")]
+    itemArr.forEach(e=>{
+      e.classList.remove("active")
+    })
   }
 
   activeItem(item){
