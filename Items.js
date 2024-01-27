@@ -6,5 +6,6 @@ export default class Items{
         this.$ownPaper = document.querySelector(".paper");
         this.$lastKey = document.querySelector(".lastKey");
     }
+    
 
 }

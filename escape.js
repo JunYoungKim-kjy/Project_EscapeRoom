@@ -1,33 +1,34 @@
 import Inventory from './inventory.js';
 import Events from './Events.js';
 import Items from './Items.js';
-
+// 매서드 및 변수들을 먼저 선언 후
+// 값은 나중에 지정됨.
 class Escape{ 
   constructor(){
     this.$overlay = document.querySelector(".overlay")
     this.canvas = document.querySelector("#mainCanvas");  //메인 캔버스
     this.ctx = this.canvas.getContext("2d");              //메인 캔버스 컨텍스트
-    this.overlay = document.querySelector(".overlay");    //오버레이
     this.$Lightswitch = document.querySelector("#switch");//전등스위치
     this.$msgBox = document.querySelector(".msgbox")      //메세지 박스
-    this.$Xbtn = document.querySelector(".Xbtn")          //X버튼
-    this.isObj = {
-      light : false,
-      finish : false,
-    }
+    
     this.light = false;       //전등 on,off
-    this.finish = false;
+    this.finish = false;      //탈출 성공 여부
     this.darkInterval = null; //어두움 인터벌
     this.msgTimeOut=null;     //메세지 타임아웃
     this.autoSave=null;       //오토세이브 인터벌
     
     
-    this.Inventory=new Inventory(this.ctx);    //인벤토리 클래스
+    this.Inventory = new Inventory(this.ctx);    //인벤토리 클래스
     this.items = new Items(this.ctx);          //아이템 클래스
-    this.events = new Events(this.Inventory ,this.ctx , this.isObj);        //이벤트 클래스
+    this.events = new Events(this.ctx); //이벤트 클래스
+
     this.stageLevel = [{level:0,element:this.$Lightswitch},{level:1,element:this.items.$firstkey},{level:2,element:this.events.$box},{level:3,element:this.events.$bookshelf},{level:4,element:this.items.$lastKey}];
     this.level = this.stageLevel[0];
-    console.log(this.isObj["light"]);
+    this.isObj = {
+      light : false,
+      finish : false,
+      level : this.stageLevel[0]
+    }
     
     
     this.load();
@@ -39,13 +40,6 @@ class Escape{
     this.loadData(this.level,"Escape_Level");
     this.loadData(this.light,"Escape_light");
     this.loadData(this.Inventory.itemArr,"Escape_Inventory");
-    //처음 화면 지워주기
-    
-    // this.loadData(this.items.itemArr,"Escape_Item");
-    // const level = JSON.parse(localStorage.getItem("Escape_Level"));
-    // if(level && level != ''){
-    //   this.level = level;
-    // }
   }
 
   loadData(thisname,data){
@@ -56,126 +50,47 @@ class Escape{
   }
   
   init(){
-    // gameOver
-    this.events.$Exit.addEventListener("click",()=>{
-      alert("탈출")
-  })
+    // doorLockEvent가 트루면 레벨 4
+    if(this.events.doorLockEvent(this.Inventory,this.isObj)){
+      this.level = this.stageLevel[4];
+      this.events.level = this.stageLevel[4];
+      this.finish = true;
+    }
 
-    // checkDoorLock
-    this.events.$doorLock.addEventListener("click",()=>{
-      if(this.finish)return;
-      if(this.Inventory.activeitem === "lastKey"){
-        this.events.$lastDoor.style.zIndex = '-10';
-        this.events.$doorLock.classList.add("active")
-        this.events.$Exit.style.zIndex = 10;
-              
-        alert("덜컥");
-        this.finish=true;
-        // this.closeEvent();
-        this.level = this.stageLevel[4];
+    //전등 스위치 on,off 레벨 1
+    this.$Lightswitch.addEventListener("click",()=>{
+      if(this.level.level < 1){
+        this.level = this.stageLevel[1];
+        this.events.level = this.stageLevel[1];
+      }
+      if(this.light){
+        //불끄기
+        this.lightTurnOff();
+        this.light = !this.light;
+        this.events.light = !this.events.light;
       }else{
-        alert("열 수 있어보인다.")
-      }
-    })
-
-
-    // 라스트 도어
-    this.events.$lastDoor.addEventListener("click",()=>{
-      this.actionEvent(this.events.$doorLock);
-    })
-
-
-    // X버튼 클릭시 event종료
-    this.$Xbtn.addEventListener("click",e=>{
-      this.events.closeEvent();
-      this.Inventory.removeActive();
-      this.$Xbtn.classList.remove('on');
-      this.$overlay.classList.remove('on');
-    })
-
-    // 인벤토리 아이템 사용
-    this.Inventory.inventory.addEventListener("click",e=>{
-      // if(e.target.parentElement.getAttribute("data-id") === 'btn')return;
-      const dataName = e.target.parentElement.getAttribute("data-name");
-      if(!dataName)return;
-      const activeitem = this.Inventory.activeItem(e.target.parentElement);
-      if(activeitem==='paper'){
-        this.actionEvent(this.events.$openPaper);
-      }
-    });
-
-    // 책문제
-    this.events.$setion1.addEventListener("drop",e=>{
-      if(this.events.isRainbow)return;
-      e.preventDefault();
-      const afterElement = this.events.getDragAfterElement(this.events.$setion1,e.clientX);
-      const draggable = document.querySelector(".dragging");
-      if (afterElement === undefined){
-          this.events.$setion1.appendChild(draggable);
-      }else{
-          this.events.$setion1.insertBefore(draggable,afterElement);
-      }
-      // 정답 확인
-      const bookArr = [...this.events.$setion1.children];
-      let num = 0;
-      // some == 1개라도 ture 면 ture값 반환
-      // every == 1개라도 false이면 false값 반환 (전체가 true여야 true 반환);
-      
-      if(bookArr.every(book=>{
-          if(book.getAttribute("data-num") == num++){
-              return true;
-          }
-      })){
-        this.events.isRainbow = true;
-        //열쇠 떨어트리기
-        this.items.$lastKey.classList.add("show");
-        setTimeout(()=>{
-        alert("달그락")},300)
-      }
-  });
-
-
-    // 책장 열기
-    this.events.$bookshelf.addEventListener("click",()=>{
-      if(!this.light)return;
-      if(this.level.level < 3){
-        alert("주변에 힌트가 있을거 같은데..");
-        return;
-      }
-      this.actionEvent(this.events.$inBookshelf);
-    });
-    // 상자 열기 및 종이 획득
-    this.events.$box.addEventListener("click",e=>{
-      if(this.level.level>=4){
-        alert("얼른 나가자")
-        return;
-      }
-      if(!this.light)return;
-      if(this.events.isOpenBox){
-        this.actionEvent(this.events.$inBox);
-        this.events.$inBox.addEventListener("click",e=>{
-          this.getItem(e.target);
-        })
-        if(this.level.level < 3){
-          this.level=this.stageLevel[3];
-        }
-      }else{
-        if(this.Inventory.activeitem != 'firstKey'){
-          alert("열 수 있을거 같은데?")
-          return;
-        }else{
-          alert("열렸다!")
-          this.events.isOpenBox = true;
-        };
+        this.lightTurnON();
+        this.light = !this.light;
+        this.events.light = !this.events.light;
       };
     });
-    
-    //열쇠 획득
-    this.items.$items.addEventListener("click",e=>{
-      if(!this.light)return;
-      this.getItem(e.target);
-      
-    });
+
+    //아이템 얻기(열쇠 레벨2)
+    this.getItem();
+
+    // 보물상자 레벨 3
+    if(this.events.boxEvent(this.$overlay, this.Inventory))this.level = this.stageLevel[3];
+    // 라스트 도어
+    this.events.lastDoorEvent(this.$overlay);
+    // X버튼
+    this.events.xButtunEvent(this.Inventory, this.$overlay);
+    // 책장
+    this.events.bookShelfEvent(this.$overlay);
+    // 책장 문제
+    this.events.inBookShelfEvent(this.items);
+
+    //아이템 사용
+    this.Inventory.useItem(this.events, this.$overlay)
     
     //마우스위치 후레쉬
     document.addEventListener("mousemove",e=>{
@@ -188,20 +103,7 @@ class Escape{
       this.ctx.clearRect(x,y,100,100);
     });
     
-    //전등 스위치 on,off
-    this.$Lightswitch.addEventListener("click",()=>{
-      if(this.level.level < 1){
-        this.level = this.stageLevel[1];
-      }
-      if(this.light){
-        //불끄기
-        this.lightTurnOff();
-        this.light = !this.light
-      }else{
-        this.lightTurnON();
-        this.light = !this.light
-      };
-    });
+    
     // 자동저장
     this.autoSave = setInterval(()=>{
       const saveLevel = JSON.stringify(this.level);
@@ -217,36 +119,27 @@ class Escape{
     }else{
       this.lightTurnOff();
     }
-    
   }
-  // 이벤트열기
-  actionEvent(event){
-    if(this.level.level>=4){
-      alert("얼른 나가자")
-      return;
-    }
-    if(!this.light)return;
-    this.$overlay.classList.add("on");
-    event.classList.add("action");
-    this.$Xbtn.classList.add('on');
+  
+  //아이템 획득
+  getItem(){
+    let name = null;
+    this.items.$items.addEventListener("click",e=>{
+      if(!this.light)return;
+      name = this.Inventory.moveToSlotItem(e.target);
+      if(name === 'firstKey'){
+        this.showMsg(`열쇠를 획득했습니다.`);
+        this.level = this.stageLevel[2];
+      }else if(name === 'paper'){
+        this.showMsg(`종이를 획득했습니다.`);
+        this.level = this.stageLevel[3];
+      }
+
+    });
   }
-
-  // 아이템 얻기
-  getItem(target){
-    const targetElement = target.parentElement;
-    if(!targetElement.getAttribute("data-name"))return;
-    this.Inventory.getItem(targetElement);
-    const name = targetElement.getAttribute("data-name");
-    this.showMsg(`${name}을 획득했습니다.`);
-    if(name=='firstKey'){
-      this.level = this.stageLevel[2];
-    }
-  }
-
-
+  
   //불 켜기
   lightTurnON(){
-    // this.overlay.classList.add("on")
     this.items.$items.classList.add("on")
     this.events.$events.classList.add("on")
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
@@ -258,7 +151,6 @@ class Escape{
     this.ctx.fillStyle="#000000";
     this.ctx.fill();
     this.ctx.closePath();
-    // this.overlay.classList.remove("on")
     this.items.$items.classList.remove("on")
     this.events.$events.classList.remove("on")
   }

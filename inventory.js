@@ -20,6 +20,27 @@ export default class Inventory{
     })
   }
 
+    //아이템 사용
+    useItem(events, overlay){
+      this.inventory.addEventListener("click",e=>{
+        // if(e.target.parentElement.getAttribute("data-id") === 'btn')return;
+        const dataName = e.target.parentElement.getAttribute("data-name");
+        if(!dataName)return;
+        const activeitem = this.activeItem(e.target.parentElement);
+        if(activeitem==='paper'){
+          events.actionEvent(events.overlay,overlay);
+        }
+      });
+    }
+      
+  //슬롯으로 가져오기
+  moveToSlotItem(target){
+    const targetElement = target.parentElement;
+    if(!targetElement.getAttribute("data-name"))return;
+    this.getItem(targetElement);
+    const name = targetElement.getAttribute("data-name");
+    return name;
+  }
   getItem(item){
     const slotList = [...document.querySelectorAll(".slot")];
     const slot = slotList.find(e=>e.innerHTML=='');
@@ -27,6 +48,7 @@ export default class Inventory{
     item.classList.remove("hint")
   }
 
+  //액션 지우기
   removeActive(){
     const itemArr = [...document.querySelectorAll(".slot>.item")]
     itemArr.forEach(e=>{
@@ -34,6 +56,7 @@ export default class Inventory{
     })
   }
 
+  //액티브 붙이기
   activeItem(item){
     const itemArr = [...document.querySelectorAll(".slot>.item")]
     const classList=[...item.classList]
