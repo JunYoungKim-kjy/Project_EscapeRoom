@@ -7,11 +7,10 @@ button{
   cursor: url('img/icons8-수색-32.png'),
   auto;
 }
-
 .container {
   cursor: url('img/icons8-수색-32.png'),
-          auto;
-          background: url('img/backroom.jpg') no-repeat center right;
+  auto;
+  background: url('img/backroom.jpg') no-repeat;
   /* 컨버스 사이즈와 동일하게 설정  */
   margin: 80px auto;
   width: 1280px;
@@ -21,6 +20,27 @@ button{
   /* 자식 위치는 : absolute */
   position: relative;
   overflow: hidden;
+}
+.container>section{
+  height: 100%;
+}
+#openingCanvas{
+  width: 100%;
+  height: 100%;
+}
+#openingCanvas.hide{
+  visibility: hidden;
+}
+
+.start{
+  position: absolute;
+  top: 2;
+  left: 0;
+  width: 500px;
+  height: 200px;
+}
+.start.hide{
+  visibility: hidden;
 }
 
 #mainCanvas{
@@ -33,7 +53,7 @@ button{
   /* left: 0; */
   z-index: 20; 
 }
-#switch{
+.switch{
   position: absolute;
   /* border: 3px solid black; */
   width: 180px;
@@ -75,16 +95,26 @@ button{
   opacity: 1;
 }
 .rightWall{
+  background-image: url(./img/wall-right.png);
+  background-size: contain;
+  background-repeat: no-repeat;
   position: absolute;
   right: -3px;
   top: 41px;
-  z-index: 5;
+  z-index: 3;
+  width: 115px;
+  height: 523px;
   transition: all 600ms;
 }
 .pillar{
+  background-image: url(./img/기둥.png);
+  background-size: contain;
+  background-repeat: no-repeat;
   position: absolute;
+  width: 159px;
+  height: 659px;
   top: -1px;
-  left: 199px;
+  left: 202px;
   transition: all 600ms;
   z-index: 5;
 }  
@@ -99,66 +129,76 @@ button{
   z-index: -1;
 }
 .door{
-  /* transform: scale(40%); */
+  background-image: url(./img/wooden-gate-2361812_640.png);
+  background-size: contain;
+  background-repeat: no-repeat;
   position: absolute;
   top: 233px;
   left: 368px;
-  width: 126px;
-  height: 250px;
+  width: 145px;
+  height: 260px;
   transition: all 500ms;
 }  
-.door>img{
-  width: 100%;
-  height: 100%;
-}
 .door:hover{
   transform: scale(1.05);
 }
 .doorLock{
+  background-image: url(./img/icons8-security-lock-96.png);
+  background-size: contain;
+  background-repeat: no-repeat;
   position: absolute;
+  width: 320px;
+  height: 320px;
   top: 350px;
   left: 35%;
   z-index: -1;
-  transform: translate(-50%,-50%) scale(2);
+  transform: translate(-50%,-50%) scale(0.5);
 }
 .doorLock.action{
   background-color: transparent;
-  top: 300px;
-  left: 50%;
-  transform: scale(4);
+  top: 150px;
+  left: 35%;
+  transform: scale(1.1);
 }
 
 .box{
+  background-image: url('./img/icons8-보물-상자-66.png');
+  background-size: cover;
   position: absolute;
   top: 450px;
-  right: 60px;
+  right: 80px;
+  width: 60px;
+  height: 60px;
   transition: all 500ms;
 }
 .box:hover{
   transform: translateX(-30px);
 }  
 .bookshelf{
+  background-image: url(./img/jesus-7280992_640.png);
+  background-size: cover;
   position: absolute;
-  width: 200px;
+  width: 285px;
   height: 350px;
   top: 160px;
   right: 280px;
   transition: all 500ms;
   z-index: 5;
 }
-.bookshelf>img{
-  width: 100%;
-  height: 100%;
-}
 .bookshelf:hover{
   transform: scale(1.03);
 }
 .inBookshelf{
+  background-image: url(./img/inBookshelf.png);
+  background-size: contain;
+  background-repeat: no-repeat;
   position: absolute;
   top: 20px;
   right: 390px;
   z-index: -100;
   transform: scale(0.3);
+  width: 460px;
+  height: 640px;
 }
 .setion{
   display: flex;
@@ -249,15 +289,29 @@ button{
   width: 20px;
   height: 100%;
 }
+.firstKey{
+  background-image: url(./img/icons8-키-64.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 60px;
+  height: 60px;
+}
 
 .items>.firstKey{
   position: absolute;
-  top: 500px;
-  left: 180px;
+  top: 620px;
+  left: 50px;
   transition: all 500ms;
 }
 .items>.firstKey:hover{
-  transform: translateX(-30px);
+  transform: scale(1.2)
+}
+.lastKey{
+  background-image: url(./img/icons8-key-53.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 40px;
+  height: 40px;
 }
 
 .items>.lastKey{
@@ -297,6 +351,11 @@ button{
 }
 
 .openbtn{
+  background-image: url(img/icons8-더블-업-30.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 30px;
+  height: 30px;
   position: absolute;
   top: -20px;
   left: 50%;
@@ -305,6 +364,10 @@ button{
   border: transparent;
   transition: all 500ms;
   transform: rotate(180deg);
+  visibility: visible;
+}
+.openbtn.hide{
+  visibility: visible;
 }
 .openbtn.down{
   top:-30px;
@@ -322,41 +385,42 @@ button{
   border: 10px solid orange;
   height: 100%;
 }
-.leftbtn{}
-.leftbtn>img{
-  width: 100%;
-  height: 100%;
+.leftbtn{
+  background-image: url(./img/icons8-뒤로-16.png);
+  background-size: contain;
+  background-repeat: no-repeat;
 }
-.rightbtn{}
-.rightbtn>img{
-  width: 100%;
-  height: 100%;
+.rightbtn{
+  background-image: url(./img/icons8-앞으로-16.png);
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 .slotList{
   display: flex;
 }
 .slotList > .slot{
   margin: 0 15px;
-  width: 110px;
+  width: 100px;
   height: 80px;
-  border: 3px solid white;
+  border: 8px tomato ;
+  border-style: groove;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
 }
 .slotList > .slot:hover{
   transform: scale(1.2);
 }
 .slot > .item {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-.slot > .item > img{
   width: 70%;
-  height: auto;
+  height: 90%;
 }
 
 
 .active{
   background-color: #fff;
+  border-radius: 20px;
 }
 
 .overlay{
@@ -380,18 +444,28 @@ button{
 }
 
 .inBox{
+  background-image: url(./img/열린상자.png);
+  background-size: contain;
+  background-repeat: no-repeat;
   position: absolute;
   top: 50px;
   right: 300px;
+  width: 460px;
+  height: 640px;
   z-index: -100;
   transform: scale(0.3);
 }
 .openPaper{
+  background-image: url(./img/무지개-paper.png) ;
+  background-size: contain;
+  background-repeat: no-repeat;
   position: absolute;
   top: 50px;
   right: 400px;
   z-index: -100;
   transform: scale(1.0);
+  width: 460px;
+  height: 600px;
 }
 
 .action{
@@ -399,7 +473,13 @@ button{
   transition: all 300ms;
   z-index: 100;
 }
-
+.paper{
+  background-image: url(img/icons8-종이-100.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100px;
+  height: 90px;
+}
 .inBox> .paper{
   position: absolute;
   top: 200px;
@@ -441,6 +521,11 @@ button{
 }
 
 .Xbtn{
+  background-image: url(./img/icons8-종료-버튼-24.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 50px;
+  height: 50px;
   position: absolute;
   background-color: transparent;
   border: transparent;

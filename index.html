@@ -6,23 +6,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>방탈출</title>
   <link rel="stylesheet" href="escape.css">
-  <script type="module" src="escape.js"></script>
+  <script type="module" src="Game.js"></script>
 </head>
 
 <body>
   <div class="container">
+    <!-- <section>
+      <canvas id="openingCanvas" width="1200" height="600">
+      </canvas>
+      <button class="start">시작하기</button>
+    </section> -->
+    <div class="switch"></div>
     <canvas id="mainCanvas" width="1200" height="600"></canvas>
-    <div id="switch"></div>
     <div class="events" draggable="false">
-      <div class="rightWall"><img src="img/wall-right.png" alt=""></div>
-      <div class="pillar"><img src="img/기둥.png" alt=""></div>
-      <div class="door"><img src="img/wooden-gate-2361812_640.png" alt=""></div>
-      <div class="doorLock"><img src="img/icons8-security-lock-96.png" alt=""></div>
-      <div class="box"><img src="img/icons8-보물-상자-66.png" alt=""></div>
-      <div class="bookshelf"><img src="img/jesus-7280992_640.png" alt=""></div>
+      <div class="rightWall"></div>
+      <div class="pillar"></div>
+      <div class="door"></div>
+      <div class="doorLock"></div>
+      <div class="box"></div>
+      <div class="bookshelf"></div>
       <div class="Exit"></div>
       <div class="inBookshelf">
-        <img src="img/inBookshelf.png" alt="">
         <div class="setion setion1">
           <div class="book" data-num="6" data-id="rebeccapurple">C<br>S<br>S</div>
           <div class="book" data-num="5" data-id="midnightblue">Z<br>O<br>O<br>M</div>
@@ -64,10 +68,9 @@
       </div>
       <!-- //inBookshelf -->
 
-      <div class="openPaper"><img src="img/openPaper-1763262_640.png" alt=""></div>
+      <div class="openPaper"></div>
       <div class="inBox">
-        <img src="img/열린상자.png" alt="">
-        <div class="item paper" data-name="paper"><img src="img/icons8-종이-100.png" alt=""></div>
+        <div class="item paper" data-name="paper"></div>
       </div>
       <!-- //inBox -->
 
@@ -75,14 +78,14 @@
     <!-- //events -->
 
     <div class="items" draggable="false">
-      <div class="item firstKey" data-name="firstKey"><img src="img/icons8-키-64.png" alt=""></div>
-      <div class="item lastKey" data-name="lastKey"><img src="img/icons8-key-53.png" alt=""></div>
+      <div class="item firstKey" data-name="firstKey"></div>
+      <div class="item lastKey" data-name="lastKey"></div>
 
     </div>
     <!-- //items -->
 
     <div class="inventory down">
-      <div class="leftbtn"><img src="img/icons8-뒤로-16.png" alt=""></div>
+      <div class="leftbtn"></div>
       <div class="slotList">
         <div class="slot"></div>
         <div class="slot"></div>
@@ -90,14 +93,14 @@
         <div class="slot"></div>
         <div class="slot"></div>
       </div>
-      <div class="rightbtn"><img src="img/icons8-앞으로-16.png" alt=""></div>
-      <button class="openbtn down" data-id="btn"><img src="img/icons8-더블-업-30.png" alt=""></button>
+      <div class="rightbtn"></div>
+      <button class="openbtn down hide" data-id="btn"></button>
     </div>
     <!-- //inventory -->
 
     <div class="msgbox"></div>
     <div class="overlay"></div>
-    <button class="Xbtn"><img src="img/icons8-종료-버튼-24.png" alt=""></button>
+    <button class="Xbtn"></button>
   </div>
   <!-- //container -->
 

@@ -3,12 +3,12 @@ import Events from './Events.js';
 import Items from './Items.js';
 // 매서드 및 변수들을 먼저 선언 후
 // 값은 나중에 지정됨.
-class Escape{ 
+export default class Escape{ 
   constructor(){
     this.$overlay = document.querySelector(".overlay")
     this.canvas = document.querySelector("#mainCanvas");  //메인 캔버스
     this.ctx = this.canvas.getContext("2d");              //메인 캔버스 컨텍스트
-    this.$Lightswitch = document.querySelector("#switch");//전등스위치
+    this.$Lightswitch = document.querySelector(".switch");//전등스위치
     this.$msgBox = document.querySelector(".msgbox")      //메세지 박스
     
     this.light = false;       //전등 on,off
@@ -175,7 +175,3 @@ class Escape{
   };
 
 }
-
-let game = new Escape();
-
-

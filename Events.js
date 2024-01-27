@@ -14,6 +14,11 @@ export default class Events{
         this.$Xbtn = document.querySelector(".Xbtn")          //X버튼
         this.light = light;
         this.level = 0;
+        this.eventObj = {
+            firstKey : null,
+            paper : this.$openPaper,
+            hammer : null,
+        }
 
 
         this.isRainbow = false;
@@ -119,6 +124,14 @@ export default class Events{
         //   alert("얼른 나가자")
         //   return;
         //}
+        const events = [...this.$events.children];
+        if(events.find(e=>{
+            const classArr = [...e.classList];
+            if(classArr.find(c=>c=="action")){
+                return e;
+            }
+        }
+            ))return;
         if(!this.light)return;
         overlay.classList.add("on");
         event.classList.add("action");
@@ -128,7 +141,6 @@ export default class Events{
     //도어락 설정
     doorLockEvent(Inventory ,isObj){
         // checkDoorLock
-        console.log(isObj);
         this.$doorLock.addEventListener("click",()=>{
             if(isObj['finish'])return;
             if(Inventory.activeitem === "lastKey"){
