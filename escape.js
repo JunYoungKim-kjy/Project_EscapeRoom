@@ -11,7 +11,7 @@ export default class Escape{
     this.$Lightswitch = document.querySelector(".switch");//전등스위치
     this.$msgBox = document.querySelector(".msgbox")      //메세지 박스
     
-    this.light = true;       //전등 on,off
+    this.light = false;       //전등 on,off
     this.finish = false;      //탈출 성공 여부
     this.darkInterval = null; //어두움 인터벌
     this.msgTimeOut=null;     //메세지 타임아웃
@@ -25,7 +25,7 @@ export default class Escape{
     this.stageLevel = [{level:0,element:this.$Lightswitch},{level:1,element:this.items.$firstkey},{level:2,element:this.events.$box},{level:3,element:this.events.$bookshelf},{level:4,element:this.items.$lastKey}];
     this.level = this.stageLevel[0];
     this.isObj = {
-      light : true,
+      light : false,
       finish : false,
       level : this.stageLevel[0]
     }
@@ -33,7 +33,7 @@ export default class Escape{
     
     this.load();
     this.init();
-    this.hint();
+    // this.hint();
   }
   
   load(){
@@ -51,10 +51,9 @@ export default class Escape{
   
   init(){
     // doorLockEvent가 트루면 레벨 4
-    if(this.events.doorLockEvent(this.Inventory,this.isObj)){
+    if(this.events.doorLockEvent(this.Inventory,this.isObj,this.$overlay)){
       this.level = this.stageLevel[4];
       this.events.level = this.stageLevel[4];
-      this.finish = true;
     }
 
     //전등 스위치 on,off 레벨 1
@@ -69,14 +68,19 @@ export default class Escape{
         this.light = !this.light;
         this.events.light = !this.events.light;
       }else{
+        // 불 켜기
         this.lightTurnON();
         this.light = !this.light;
         this.events.light = !this.events.light;
+        this.events.$rock.style.cursor = "url('./img/icons8-hammer-30.png'),auto";
       };
     });
 
     //아이템 얻기(열쇠 레벨2)
     this.getItem();
+
+    // 바위게임
+    this.events.rockEvent(this.$overlay,this.level.level)
 
     // 보물상자 레벨 3
     if(this.events.boxEvent(this.$overlay, this.Inventory))this.level = this.stageLevel[3];
@@ -95,6 +99,12 @@ export default class Escape{
 
     // 라스트 도어
     this.events.lastDoorEvent(this.$overlay);
+    // gameOver
+    this.events.$Exit.addEventListener("click",()=>{
+      if(this.level.level >= 4)return;
+      this.finish=true;
+        alert("탈출");
+    })
     
     // X버튼
     this.events.xButtunEvent(this.Inventory, this.$overlay);
@@ -138,6 +148,7 @@ export default class Escape{
       if(!this.light)return;
       name = this.Inventory.moveToSlotItem(e.target);
       if(name === 'firstKey'){
+        // this.finish=true; //테스트용
         this.showMsg(`열쇠를 획득했습니다.`);
         this.level = this.stageLevel[2];
       }else if(name === 'paper'){
@@ -180,10 +191,12 @@ export default class Escape{
       // this.showMsg(`${this.$Lightswitch} 번 힌트`)
       // this.level.element.classList.add("hint");
       setTimeout(()=>{
-        if(this.level ==0);
-        this.$Lightswitch.classList.add("hint");
-        setTimeout(()=>this.level.element.classList.remove("hint"),5000)
-        },60000 * 2);
+        // if(this.level.level ==0)
+        if(!this.light){
+          this.$Lightswitch.classList.add("hint");
+          setTimeout(()=>this.level.element.classList.remove("hint"),8000)
+        }
+        },40000);
         // },60000 * 2);
     // }, 2000);
   };

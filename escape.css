@@ -4,11 +4,25 @@
   box-sizing: border-box;
 }
 button{
-  cursor: url('img/icons8-수색-32.png'),
+  cursor: url('img/icons8-magnifying-glass-tilted-left-48.png'),
   auto;
 }
+main{
+  /* 컨버스 사이즈와 동일하게 설정  */
+  margin: 0 auto;
+  width: 1280px;
+  height: 720px;
+  /* border: 1px solid black; */
+  /* 부모 박스 : relative  */
+  /* 자식 위치는 : absolute */
+  position: absolute;
+  overflow: hidden;
+}
+.container.hidden{
+  visibility: hidden;
+}
 .container {
-  cursor: url('img/icons8-수색-32.png'),
+  cursor: url('img/icons8-magnifying-glass-tilted-left-48.png'),
   auto;
   background: url('img/backroom.jpg') no-repeat;
   /* 컨버스 사이즈와 동일하게 설정  */
@@ -24,26 +38,56 @@ button{
 .container>section{
   height: 100%;
 }
-#openingCanvas{
+#opening{
+  background-color: black;
   width: 100%;
   height: 100%;
+  transition: 300ms;
+  z-index: 10000;
+  opacity: 1;
 }
-#openingCanvas.hide{
+#opening.hidden{
+  opacity: 0;
   visibility: hidden;
 }
 
 .start{
   position: absolute;
-  top: 2;
-  left: 0;
-  width: 500px;
-  height: 200px;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 100px;
+  background-color: teal;
+  box-shadow: 10px 10px black;
+  border-radius: 20px;
+  font-size: xx-large;
+  font-weight: bold;
+  color: gainsboro;
+  z-index: 1;
 }
-.start.hide{
+.start.hidden{
   visibility: hidden;
 }
-
+.record{
+  position: absolute;
+  border-radius: 20px;
+  top: 20%;
+  left: 20%;
+  width: 600px;
+  height: 100px;
+  border: 2px solid white;
+  z-index: -1;
+  text-align: center;
+  color: #fff;
+  font-size: xx-large;
+}
+.record.show{
+  z-index: 99999;
+}
 #mainCanvas{
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   /* border: 30px solid black; */
   height: 100%;
@@ -51,28 +95,27 @@ button{
   /* position: absolute; */
   /* top: 0; */
   /* left: 0; */
-  z-index: 20; 
+  /* z-index: 20;  */
 }
 .switch{
   position: absolute;
   /* border: 3px solid black; */
-  width: 180px;
+  width: 120px;
   height: 50px;
   top: 110px;
   left: 450px;
   /* transition: all 600ms; */
-  z-index: 10;
+  z-index: 21;
   border-radius: 60px;
 }
-#switch.hint{
-  width: 50px;
+.switch.hint{
   background-color: rgba(255, 255, 255, 0.288);
   animation: hint 500ms ease-out infinite;
 }
 
-/* .hint{
+.hint{
   animation: hint 500ms ease-out infinite;
-} */
+}
 
 @keyframes hint{
   0%{
@@ -117,7 +160,25 @@ button{
   left: 202px;
   transition: all 600ms;
   z-index: 5;
-}  
+}
+.rock{
+  /* cursor: url('./img/icons8-hammer-30.png'),auto; */
+  position: absolute;
+  background-image: url(./img/stone-576268_640.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 200px;
+  height: 200px;
+  top: 600px;
+  left: 30px;
+  transition: all 800ms;
+  z-index: 5;
+}
+.rock.broken{
+  opacity: 0;
+  visibility: hidden;
+}
+
 .Exit{
   position: absolute;
   border-radius: 10px;
@@ -147,27 +208,28 @@ button{
   background-size: contain;
   background-repeat: no-repeat;
   position: absolute;
-  width: 320px;
-  height: 320px;
+  width: 150px;
+  height: 150px;
   top: 350px;
   left: 35%;
-  z-index: -1;
+  z-index: -11;
   transform: translate(-50%,-50%) scale(0.5);
 }
 .doorLock.action{
   background-color: transparent;
-  top: 150px;
-  left: 35%;
+  top: 250px;
+  left: 30%;
   transform: scale(1.1);
 }
 .frame{
-  background-image: url("./img/액자.png");
+  background-image: url("./img/water-3147079_640.jpg");
+  background-repeat: no-repeat;
   background-size: contain;
   position: absolute;
-  top: 200px;
+  top: 260px;
   left:570px;
   width: 100px;
-  height: 100px;
+  height: 70px;
   border: 5px solid black;
   border-radius: 10px;
   transition: all 300ms;
@@ -420,8 +482,11 @@ button{
   transform: rotate(180deg);
   visibility: visible;
 }
-.openbtn.hide{
-  visibility: visible;
+.hidden{
+  visibility: hidden;
+}
+.openbtn.hidden{
+  visibility: hidden;
 }
 .openbtn.down{
   top:-30px;
@@ -505,7 +570,7 @@ button{
   transform: scale(0.3);
 }
 .openPaper{
-  background-image: url(./img/무지개-paper.png) ;
+  background-image: url(./img/paper-palette.png) ;
   background-size: contain;
   background-repeat: no-repeat;
   position: absolute;

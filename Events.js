@@ -5,6 +5,7 @@ export default class Events{
         this.$events = document.querySelector(".events");       //이벤트 오브젝트 부모 객체
         this.$Lightswitch = document.querySelector("#switch");  //전등스위치
         this.$box = document.querySelector(".box");
+        this.$rock = document.querySelector(".rock");
         this.$bookshelf = document.querySelector(".bookshelf");
         this.$inBookshelf = document.querySelector(".inBookshelf");
         this.$lastDoor = document.querySelector(".door");
@@ -19,7 +20,9 @@ export default class Events{
         this.frameCtx = this.$openFrame.getContext("2d");
         this.frameGame = new FrameGame(this.$openFrame,this.frameCtx);
 
-        this.light = true;
+
+        this.rockDamage = 0;
+        this.light = false;
         this.level = 0;
         this.eventObj = {
             firstKey : null,
@@ -30,7 +33,6 @@ export default class Events{
 
         this.isRainbow = false;
         this.isOpenBox = false;
-        this.init();
     }
     // 보물상자
     // 상자 열기 및 종이 획득
@@ -52,18 +54,31 @@ export default class Events{
             }
             }else{
                 if(Inventory.activeitem != 'firstKey'){
-                    alert("열 수 있을거 같은데?")
+                    alert("잠겨있다.")
                     return;
                 }else{
-                    alert("열렸다!")
+                    alert("열렸다.")
                     this.isOpenBox = true;
                 };
             };
         });
     }
 
+    // 바위게임 열기
+    rockEvent(overlay,level){
+        this.$rock.addEventListener("click",()=>{
+            if(!this.light)return;
+            this.rockDamage+=1;
+            console.log(this.rockDamage);
+            if(this.rockDamage === 10){
+                this.$rock.classList.add("broken");
+            }
+        })
+    }
+
     //액자 열기
     frameEvent(overlay,level){
+
         this.$frame.addEventListener("click", ()=>{
             if(!this.light)return;
             if(level > 2)return;
@@ -87,15 +102,19 @@ export default class Events{
             }
             setTimeout(()=>{
                 // 획득 실패
-                console.log(this.frameGame.isFail);
                 if(this.frameGame.isFail){
                     this.closeEvent(Inventory,overlay);
+                    alert("실패")
                 // 획득 성공
-                }else if(this.frameGame.clear){
-                    items.$paint.classList.add("show")
-                    this.closeEvent(Inventory,overlay);
                 }
-            },1500)
+            },1000);
+            setTimeout(()=>{
+                if(this.frameGame.clear){
+                // 물감 떨어트리기
+                items.$paint.classList.add("show")
+                this.closeEvent(Inventory,overlay);
+                }
+            },3000)
         })
     }
 
@@ -103,10 +122,6 @@ export default class Events{
     bookShelfEvent(overlay){
         this.$bookshelf.addEventListener("click",()=>{
             if(!this.light)return;
-            if(this.level < 3){
-                alert("주변에 힌트가 있을거 같은데..");
-                return;
-            }
             this.actionEvent(this.$inBookshelf,overlay);
         });
     }
@@ -114,7 +129,6 @@ export default class Events{
     inBookShelfEvent(items){
         // 책문제
         this.$setion1.addEventListener("drop",e=>{
-            console.log(e);
         if(this.isRainbow)return;
         e.preventDefault();
         const afterElement = this.getDragAfterElement(this.$setion1,e.clientX);
@@ -147,6 +161,7 @@ export default class Events{
     // 라스트 도어
     lastDoorEvent(overlay){
         this.$lastDoor.addEventListener("click",()=>{
+        if(!this.light)return;
         this.actionEvent(this.$doorLock,overlay);
         })
 
@@ -179,43 +194,34 @@ export default class Events{
     }
 
     //도어락 설정
-    doorLockEvent(Inventory ,isObj){
+    doorLockEvent(Inventory ,isObj,overlay){
         // checkDoorLock
         this.$doorLock.addEventListener("click",()=>{
-            if(isObj['finish'])return;
+            if(this.level===4)return;
+            if(Inventory.activeitem === "firstKey"){
+                alert("열쇠가 맞지 않는다");
+                return;
+            }
             if(Inventory.activeitem === "lastKey"){
                 this.$lastDoor.style.zIndex = '-10';
                 this.$doorLock.classList.add("active")
                 this.$Exit.style.zIndex = 10;
+                this.closeEvent(Inventory,overlay);
 
                 alert("덜컥");
-                isObj['finish']=true;
                 return true;
             }else{
-                alert("열 수 있어보인다.");
+                alert("열 수 있어 보인다.");
                 return false;
             }
         });
     }
 
-    init(){
-
-    // gameOver
-    this.$Exit.addEventListener("click",()=>{
-        alert("탈출")
-    });
-
-    
-    
-}
 
 openSetion(Inventory){
     // 책 1번째 칸에 물감 붇기
     this.$setion1.addEventListener("click",e=>{
-        console.log(e);
-        console.log(Inventory.activeitem);
         if(Inventory.activeitem === "paint"){
-            console.log("?");
             this.addBookColor();
         }
     })

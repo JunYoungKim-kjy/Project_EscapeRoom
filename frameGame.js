@@ -103,7 +103,7 @@ export default class FrameGame{
         this.ctx.closePath();
         
         this.ctx.clearRect(0,this.backY - this.canvas.height,this.canvas.width,this.canvas.height);
-        if(this.count >= 8){
+        if(this.count >= 6){
           this.ctx.drawImage(this.finishImg,0,this.backY - this.canvas.height,this.canvas.width,this.canvas.height);
         }else{
           this.ctx.drawImage(this.floorImg,0,this.backY - this.canvas.height,this.canvas.width,this.canvas.height);
@@ -149,7 +149,7 @@ export default class FrameGame{
         // console.log("방향 = "+ this.playerCur);
         // console.log(this.playerCur === this.quiz[this.count]);
         console.log(this.quiz);
-        if(this.playerCur===this.quiz[this.count]){
+        if(this.playerCur===this.quiz[this.count] || this.count===10){
           this.count += 1;
         }else{
           this.count=0;
@@ -159,11 +159,11 @@ export default class FrameGame{
         }
         
         if(this.count === this.clearCount){
-          console.log(this.count);
-          clearInterval(this.renderInterval);
-          this.clear = true;
-          this.frameGameRun=false;
-          return;
+          setTimeout(()=>{
+            clearInterval(this.renderInterval);
+            this.clear = true;
+            this.frameGameRun=false;
+          },1000)
         }
       }
       

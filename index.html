@@ -11,11 +11,12 @@
 
 <body>
   <div class="container">
-    <!-- <section>
-      <canvas id="openingCanvas" width="1200" height="600">
-      </canvas>
-      <button class="start">시작하기</button>
-    </section> -->
+    <main>
+      <div id="opening" width="1200" height="600">
+        <button class="start">시작하기</button>
+        <div class="record"></div>
+      </div>
+    </main>
     <div class="switch"></div>
     <canvas id="mainCanvas" width="1200" height="600"></canvas>
     <div class="events" draggable="false">
@@ -27,6 +28,7 @@
       <div class="bookshelf"></div>
       <div class="Exit"></div>
       <div class="frame"></div>
+      <div class="rock"></div>
       <canvas class="openFrame" width="500" height="500"></canvas>
       <div class="inBookshelf">
         <div class="setion setion1">
@@ -97,7 +99,7 @@
         <div class="slot"></div>
       </div>
       <div class="rightbtn"></div>
-      <button class="openbtn down hide" data-id="btn"></button>
+      <button class="openbtn down hidden" data-id="btn"></button>
     </div>
     <!-- //inventory -->
 
