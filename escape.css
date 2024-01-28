@@ -131,11 +131,11 @@ main{
 }
 .events,
 .items{
-  opacity: 0;
+  visibility: hidden;
 }
 .events.on,
 .items.on{
-  opacity: 1;
+  visibility: visible;
 }
 .rightWall{
   background-image: url(./img/wall-right.png);
@@ -482,9 +482,7 @@ main{
   transform: rotate(180deg);
   visibility: visible;
 }
-.hidden{
-  visibility: hidden;
-}
+
 .openbtn.hidden{
   visibility: hidden;
 }

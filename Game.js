@@ -27,7 +27,7 @@ class Game{
             this.$opening.classList.add("hidden");
             this.$startBtn.classList.add("hidden");
             this.timeInterval = setInterval(()=>{
-                let min = parseInt(this.time / 100 / 3600);
+                let min = parseInt(this.time / 6000 % 60);
                 let sec = parseInt(this.time / 100 % 60);
                 let ms = this.time%100;
 
