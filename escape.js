@@ -11,7 +11,7 @@ export default class Escape{
     this.$Lightswitch = document.querySelector(".switch");//전등스위치
     this.$msgBox = document.querySelector(".msgbox")      //메세지 박스
     
-    this.light = false;       //전등 on,off
+    this.light = true;       //전등 on,off
     this.finish = false;      //탈출 성공 여부
     this.darkInterval = null; //어두움 인터벌
     this.msgTimeOut=null;     //메세지 타임아웃
@@ -25,7 +25,7 @@ export default class Escape{
     this.stageLevel = [{level:0,element:this.$Lightswitch},{level:1,element:this.items.$firstkey},{level:2,element:this.events.$box},{level:3,element:this.events.$bookshelf},{level:4,element:this.items.$lastKey}];
     this.level = this.stageLevel[0];
     this.isObj = {
-      light : false,
+      light : true,
       finish : false,
       level : this.stageLevel[0]
     }
@@ -80,17 +80,28 @@ export default class Escape{
 
     // 보물상자 레벨 3
     if(this.events.boxEvent(this.$overlay, this.Inventory))this.level = this.stageLevel[3];
-    // 라스트 도어
-    this.events.lastDoorEvent(this.$overlay);
-    // X버튼
-    this.events.xButtunEvent(this.Inventory, this.$overlay);
+
+    // 액자
+    this.events.frameEvent(this.$overlay,this.level.level);
+    // 액자게임
+    this.events.keyEvaent(this.Inventory,this.$overlay,this.items);
+
     // 책장
     this.events.bookShelfEvent(this.$overlay);
+    // 책장 첫 번째 칸 오픈하기
+    this.events.openSetion(this.Inventory);
     // 책장 문제
     this.events.inBookShelfEvent(this.items);
 
+    // 라스트 도어
+    this.events.lastDoorEvent(this.$overlay);
+    
+    // X버튼
+    this.events.xButtunEvent(this.Inventory, this.$overlay);
+
     //아이템 사용
     this.Inventory.useItem(this.events, this.$overlay)
+
     
     //마우스위치 후레쉬
     document.addEventListener("mousemove",e=>{
@@ -115,7 +126,6 @@ export default class Escape{
     // light가 true면 불켜기 false면 불 끄기
     if(this.light){
       this.lightTurnON();
-      this.$overlay.classList.add("turnOffLight")
     }else{
       this.lightTurnOff();
     }
@@ -166,11 +176,15 @@ export default class Escape{
 
   hint(){
     //레벨별 힌트
-    setInterval(()=>{
-        this.showMsg(`${this.level.level+1} 번 힌트`)
-        this.level.element.classList.add("hint");
+    // setInterval(()=>{
+      // this.showMsg(`${this.$Lightswitch} 번 힌트`)
+      // this.level.element.classList.add("hint");
+      setTimeout(()=>{
+        if(this.level ==0);
+        this.$Lightswitch.classList.add("hint");
         setTimeout(()=>this.level.element.classList.remove("hint"),5000)
-        },60000 * 5);
+        },60000 * 2);
+        // },60000 * 2);
     // }, 2000);
   };
 

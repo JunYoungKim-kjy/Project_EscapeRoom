@@ -70,9 +70,9 @@ button{
   animation: hint 500ms ease-out infinite;
 }
 
-.hint{
+/* .hint{
   animation: hint 500ms ease-out infinite;
-}
+} */
 
 @keyframes hint{
   0%{
@@ -160,7 +160,36 @@ button{
   left: 35%;
   transform: scale(1.1);
 }
+.frame{
+  background-image: url("./img/액자.png");
+  background-size: contain;
+  position: absolute;
+  top: 200px;
+  left:570px;
+  width: 100px;
+  height: 100px;
+  border: 5px solid black;
+  border-radius: 10px;
+  transition: all 300ms;
+}
+.frame:hover{
+  transform: scale(1.05);
+}  
 
+.openFrame{
+  /* background-image: url(./img/inBookshelf.png); */
+  /* background-size: contain; */
+  /* background-repeat: no-repeat; */
+  position: absolute;
+  border: 20px solid black;
+  top: 20px;
+  right: 390px;
+  z-index: -100;
+  /* z-index: 100; */
+  /* transform: scale(0.3); */
+  width: 500px;
+  height: 600px;
+}
 .box{
   background-image: url('./img/icons8-보물-상자-66.png');
   background-size: cover;
@@ -217,8 +246,12 @@ button{
   top: 30px;
   left: 40px;
 }
-.setion1>.book{
-  background-color: #524b0d;
+.setion1>.book,
+.setion2>.book,
+.setion3>.book,
+.setion4>.book,
+.setion5>.book{
+  background-color: #3b0a0a;
   margin: 0 2px;
   width: 20px;
   height: 100%;
@@ -236,7 +269,7 @@ button{
   left: 40px;
 }
 .setion2>.book{
-  background-color: firebrick;
+  background-color: #3b0a0a;
   margin: 0 2px;
   width: 20px;
   height: 100%;
@@ -321,7 +354,6 @@ button{
   transition: all 500ms;
   z-index: -10;
   /* z-index: 10; */
-
 }
 .items>.lastKey.show{
   top: 490px;
@@ -329,6 +361,28 @@ button{
 }
 .items>.lastKey:hover{
   transform: translateY(15px);
+}
+.paint{
+  background-image: url(./img/icons8-palette-64.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 40px;
+  height: 40px;
+}
+.items>.paint{
+  position: absolute;
+  top: 250px;
+  left: 600px;
+  transition: all 500ms;
+  z-index: -10;
+  /* z-index: 10; */
+}
+.items>.paint.show{
+  top: 470px;
+  z-index: 2;
+}
+.items>.paint:hover{
+  transform: scale(1.2);
 }
 .inventory{
   z-index: 100;
@@ -436,11 +490,6 @@ button{
 }  
 .overlay.on{
   visibility: visible;
-}
-.overlay.turnOffLight{
-  background-color: #000000;
-  visibility: visible;
-  
 }
 
 .inBox{

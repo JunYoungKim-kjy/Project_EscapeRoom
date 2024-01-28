@@ -1,3 +1,5 @@
+import FrameGame from "./frameGame.js";
+
 export default class Events{
     constructor(ctx,light){
         this.$events = document.querySelector(".events");       //이벤트 오브젝트 부모 객체
@@ -11,8 +13,13 @@ export default class Events{
         this.$openPaper = document.querySelector(".openPaper");
         this.$setion1 = document.querySelector(".setion1");
         this.$Exit = document.querySelector(".Exit");
-        this.$Xbtn = document.querySelector(".Xbtn")          //X버튼
-        this.light = light;
+        this.$Xbtn = document.querySelector(".Xbtn");          //X버튼
+        this.$frame = document.querySelector(".frame");
+        this.$openFrame = document.querySelector(".openFrame");
+        this.frameCtx = this.$openFrame.getContext("2d");
+        this.frameGame = new FrameGame(this.$openFrame,this.frameCtx);
+
+        this.light = true;
         this.level = 0;
         this.eventObj = {
             firstKey : null,
@@ -55,7 +62,42 @@ export default class Events{
         });
     }
 
-    
+    //액자 열기
+    frameEvent(overlay,level){
+        this.$frame.addEventListener("click", ()=>{
+            if(!this.light)return;
+            if(level > 2)return;
+            if(this.frameGame.frameGameRun)return;
+            this.frameGame.frameGameRun=true;
+            this.actionEvent(this.$openFrame,overlay);
+            this.frameGame.render();
+            this.frameGame.reStart();
+        })
+    }
+    //키보드 입력
+    keyEvaent(Inventory,overlay,items){
+        document.addEventListener("keydown",e=>{
+            if(!this.frameGame.frameGameRun)return;
+            if(this.frameGame.clear)return;
+            if(this.frameGame.playerMove)return;
+            if (e.code === "ArrowLeft") {
+                this.frameGame.move(e,"left")
+            } else if (e.code === "ArrowRight") {
+                this.frameGame.move(e,"right")
+            }
+            setTimeout(()=>{
+                // 획득 실패
+                console.log(this.frameGame.isFail);
+                if(this.frameGame.isFail){
+                    this.closeEvent(Inventory,overlay);
+                // 획득 성공
+                }else if(this.frameGame.clear){
+                    items.$paint.classList.add("show")
+                    this.closeEvent(Inventory,overlay);
+                }
+            },1500)
+        })
+    }
 
     // 책장 열기
     bookShelfEvent(overlay){
@@ -72,6 +114,7 @@ export default class Events{
     inBookShelfEvent(items){
         // 책문제
         this.$setion1.addEventListener("drop",e=>{
+            console.log(e);
         if(this.isRainbow)return;
         e.preventDefault();
         const afterElement = this.getDragAfterElement(this.$setion1,e.clientX);
@@ -96,7 +139,7 @@ export default class Events{
           //열쇠 떨어트리기
         items.$lastKey.classList.add("show");
         setTimeout(()=>{
-            alert("달그락")},300)
+            alert("달그락")},300);
         }
     });
     }
@@ -111,10 +154,7 @@ export default class Events{
     // X버튼 클릭시 event종료
     xButtunEvent(Inventory, overlay){
         this.$Xbtn.addEventListener("click",e=>{
-            this.closeEvent();
-            Inventory.removeActive();
-            this.$Xbtn.classList.remove('on');
-            overlay.classList.remove('on');
+            this.closeEvent(Inventory,overlay);
         });
     }
         
@@ -160,20 +200,36 @@ export default class Events{
 
     init(){
 
-
     // gameOver
     this.$Exit.addEventListener("click",()=>{
         alert("탈출")
     });
 
-    // 책 세팅
+    
+    
+}
+
+openSetion(Inventory){
+    // 책 1번째 칸에 물감 붇기
+    this.$setion1.addEventListener("click",e=>{
+        console.log(e);
+        console.log(Inventory.activeitem);
+        if(Inventory.activeitem === "paint"){
+            console.log("?");
+            this.addBookColor();
+        }
+    })
+}
+
+addBookColor(){
+    // 책 물감
         const bookArr = [...this.$setion1.children];
         bookArr.forEach(book=>{
             const color = book.getAttribute("data-id");
             book.classList.add("draggable")
             book.setAttribute("draggable","true");
             book.style.backgroundColor = color;
-
+        
             // 드래그 시작시 클래스 추가
             book.addEventListener("dragstart",()=>{
                 book.classList.add("dragging");
@@ -183,11 +239,10 @@ export default class Events{
                 book.classList.remove("dragging");
             });
         });
-
+        
         this.$setion1.addEventListener("dragover",e=>{
             e.preventDefault();
         });
-
     }
     
 
@@ -210,11 +265,14 @@ export default class Events{
     }
 
     
-    closeEvent(){
+    closeEvent(Inventory,overlay){
         const list = [...document.querySelector(".events").children];
         list.forEach(e=>{
             e.classList.remove("action");
         })
+        Inventory.removeActive();
+        this.$Xbtn.classList.remove('on');
+        overlay.classList.remove('on');
     }
 
 

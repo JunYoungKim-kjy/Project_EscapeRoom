@@ -5,6 +5,7 @@ export default class Items{
         this.$paper = document.querySelector(".inBox>.paper");
         this.$ownPaper = document.querySelector(".paper");
         this.$lastKey = document.querySelector(".lastKey");
+        this.$paint = document.querySelector(".paint")
     }
     
 
