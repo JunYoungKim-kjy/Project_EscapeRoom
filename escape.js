@@ -163,12 +163,16 @@ export default class Escape{
   lightTurnON(){
     this.items.$items.classList.add("on")
     this.events.$events.classList.add("on")
+    this.items.$items.style.transition = 'all 600ms';
+    this.events.$events.style.transition = 'all 600ms';
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
   }
   //불 끄기
   lightTurnOff(){
     this.items.$items.classList.remove("on")
+    // this.items.$items.style.transition = 'none';
     this.events.$events.classList.remove("on")
+    // this.events.$events.style.transition = 'none';
     this.ctx.beginPath();
     this.ctx.rect(0,0,this.canvas.width,this.canvas.height);
     this.ctx.fillStyle="#000000";
