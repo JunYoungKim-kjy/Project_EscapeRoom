@@ -69,7 +69,7 @@ export default class Events{
         this.$rock.addEventListener("click",()=>{
             if(!this.light)return;
             this.rockDamage+=1;
-            console.log(this.rockDamage);
+            // console.log(this.rockDamage);
             if(this.rockDamage === 10){
                 this.$rock.classList.add("broken");
             }
