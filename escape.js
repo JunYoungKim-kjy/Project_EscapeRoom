@@ -150,10 +150,10 @@ export default class Escape{
       if(name === 'firstKey'){
         // this.finish=true; //테스트용
         this.showMsg(`열쇠를 획득했습니다.`);
-        this.level = this.stageLevel[2];
+        // this.level = this.stageLevel[3];
       }else if(name === 'paper'){
         this.showMsg(`종이를 획득했습니다.`);
-        this.level = this.stageLevel[3];
+        // this.level = this.stageLevel[3];
       }
 
     });

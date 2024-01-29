@@ -81,7 +81,7 @@ export default class Events{
 
         this.$frame.addEventListener("click", ()=>{
             if(!this.light)return;
-            if(level > 2)return;
+            if(level > 3)return;
             if(this.frameGame.frameGameRun)return;
             this.frameGame.frameGameRun=true;
             this.actionEvent(this.$openFrame,overlay);
