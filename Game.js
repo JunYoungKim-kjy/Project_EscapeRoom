@@ -1,4 +1,4 @@
-import Escape from './Escape.js'
+import Escape from './escape.js'
 
 class Game{
     constructor(){
