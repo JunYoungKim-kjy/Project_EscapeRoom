@@ -131,6 +131,7 @@ export default class FrameGame{
           const quiz = rNum === 0 ? 'right':'left';
           this.quiz.push(quiz);
         }
+        console.log(this.quiz);
       }
       //실패 성공
       isSuccess(){
@@ -148,7 +149,6 @@ export default class FrameGame{
         // console.log("문제 = "+ this.quiz[this.count]);
         // console.log("방향 = "+ this.playerCur);
         // console.log(this.playerCur === this.quiz[this.count]);
-        console.log(`${this.count}정답 = ${this.quiz[this.count]}`);
         if(this.playerCur===this.quiz[this.count] || this.count===10){
           this.count += 1;
         }else{
