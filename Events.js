@@ -83,7 +83,6 @@ export default class Events{
             if(!this.light)return;
             if(level > 4)return;
             if(this.frameGame.frameGameRun)return;
-            console.log("?");
             this.frameGame.frameGameRun=true;
             this.actionEvent(this.$openFrame,overlay);
             this.frameGame.render();
