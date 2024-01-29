@@ -35,7 +35,7 @@ class Game{
                 this.record.s = sec < 10? '0'+sec:sec;
                 this.record.ms= ms < 10? 0 + ms:ms;
                 this.time += 1;
-                console.log(`${this.record.m}:${this.record.s}:${this.record.ms}`);
+                // console.log(`${this.record.m}:${this.record.s}:${this.record.ms}`);
             if(this.Escape.finish){
                 clearInterval(this.timeInterval);
                 this.$record.classList.add("show");
