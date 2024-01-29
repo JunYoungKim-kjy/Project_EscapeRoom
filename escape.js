@@ -167,13 +167,13 @@ export default class Escape{
   }
   //불 끄기
   lightTurnOff(){
+    this.items.$items.classList.remove("on")
+    this.events.$events.classList.remove("on")
     this.ctx.beginPath();
     this.ctx.rect(0,0,this.canvas.width,this.canvas.height);
     this.ctx.fillStyle="#000000";
     this.ctx.fill();
     this.ctx.closePath();
-    this.items.$items.classList.remove("on")
-    this.events.$events.classList.remove("on")
   }
   // 메세지박스 메서드
   showMsg(msg){
