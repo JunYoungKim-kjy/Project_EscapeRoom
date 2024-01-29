@@ -144,6 +144,7 @@ main{
 }
 .events,
 .items{
+  transition: none;
   visibility: hidden;
 }
 .events.on,
