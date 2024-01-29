@@ -48,10 +48,10 @@ export default class Events{
             this.$inBox.addEventListener("click",e=>{
                 Inventory.moveToSlotItem(e.target);
             });
-            if(this.level < 3){
-                this.level = 3;
-                return true; 
-            }
+            // if(this.level < 3){
+            //     this.level = 3;
+            //     return true; 
+            // }
             }else{
                 if(Inventory.activeitem != 'firstKey'){
                     alert("잠겨있다.")
@@ -81,7 +81,7 @@ export default class Events{
 
         this.$frame.addEventListener("click", ()=>{
             if(!this.light)return;
-            if(level > 3)return;
+            if(level > 4)return;
             if(this.frameGame.frameGameRun)return;
             this.frameGame.frameGameRun=true;
             this.actionEvent(this.$openFrame,overlay);
